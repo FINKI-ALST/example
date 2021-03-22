@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Add new Student to Course</title>
+    <style type = "text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial;
+        }
+        table {
+            width:100%;
+            background: lightslategray;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding:3px 2px;
+        }
+        section {
+            float: left;
+            margin: 0 1.5%;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            margin: 0 1.5%;
+            width: 30%;
+        }
+        h1,h2{
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Student Enrollment - Select the Student </h1>
+</header>
+<form th:method="POST" th:action="@{/AddStudent}">
+<section>
+    <h2>Select the student to enroll:</h2>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+    <a href='/createStudent' type='button'>Create New Student</a> <br/> <br/>
+    </th:block>
+    <th:block th:each="student:${students}">
+        <input type="radio" name="size" th:value="${student.getUsername()}"/><th:block th:text="${student.getName()}"/>
+        <br/>
+    </th:block>
+    <br/>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+    <label for="studentgrade">Enter Student's Grade </label>
+    <select name="studentgrade" id="studentgrade">
+        <option value="-">-</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="D">F</option>
+    </select>
+    <input type="submit" value="Submit"/>
+    </th:block>
+</section>
+</form>
+<aside>
+    <table class="tabela">
+        <tr>
+            <th colspan="2">
+                Your Enrollment Status
+            </th>
+        </tr>
+        <tr>
+            <td><b>Course Id</b></td>
+            <td><th:block th:text="${session.courseId}"/></td>
+        </tr>
+    </table>
+</aside>
+</body>
+</html>

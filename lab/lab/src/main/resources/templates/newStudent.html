@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="/createStudentCss.css" type="text/css" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <title>Create a New Student Page</title>
+</head>
+<body>
+<header>
+    <h1>Student Enrollment - Create a New Student </h1>
+</header>
+<div class="createNew">
+<form th:method="POST" th:action="@{/createStudent}">
+<section>
+    <label for='username'>Username:</label><br/><input id='username' type='text' name='username'/><br/>
+    <label for='password'>Password:</label><br/><input id='password' type='password' name='password'/><br/>
+    <label for='name'>Name:</label><br/><input id='name' type='text' name='name'/><br/>
+    <label for='surname'>Surname:</label><br/><input id='surname' type='text' name='surname'/><br/>
+    <div th:if="${hasError}" class="err">
+        <th:block th:text="${error}"/>
+    </div>
+    <br/>
+    <input id="btn" type='submit' value='Submit'/>
+</section>
+</form>
+    <a class="btn btn-danger" href="javascript:history.back()">Go Back</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+.createNew{
+    width: 400px;
+    background: gray;
+    margin: auto;
+    padding: 80px;
+    border-radius: 15px ;
+}
+h1{
+    text-align: center;
+    color: gray;
+    padding: 20px;
+}
+label{
+    color: #08ffd1;
+    font-size: 17px;
+}
+#username{
+    width: 300px;
+    height: 30px;
+    border-color: black;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#password{
+    width: 300px;
+    height: 30px;
+    border-color: black;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#name{
+    width: 300px;
+    height: 30px;
+    border-color: black;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#surname{
+    width: 300px;
+    height: 30px;
+    border-color: black;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#btn{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: blue;
+
+
+}
+div.err{
+    color: red;
+    font-style: italic;
+    font-size: 17px;
+}

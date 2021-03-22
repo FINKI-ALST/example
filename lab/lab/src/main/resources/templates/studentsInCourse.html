@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>WP lab - Students in Course</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial;
+        }
+        div{
+            width: 400px;
+            border-radius: 15px;
+        }
+        h1,h2{
+            color: gray;
+        }
+        section.listStInCourse{
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Students in Course </h1>
+</header>
+<section class="listStInCourse">
+    <h2 th:text="${courseN.getName()}" class="courseName"></h2>
+    <ul>
+        <li th:each="grade:${grades}"><th:block th:text="${grade.getStudent().getName()}"/>
+            (<th:block th:text="${grade.getStudent().getUsername()}"/>) <th:block th:text="${grade.getGrade()}"/>
+        </li>
+    </ul>
+    <a href="/courses">Back</a><br/>
+</section>
+<form th:method="POST">
+    <label for='search'>Search:</label><br/>
+    <input id='search' type='text' name='search'/><br/>
+    <input type="submit" value="Submit"/>
+</form>
+<div>
+    <th:block th:each="stud:${studentsS}">
+        <label th:text="${stud.getName()}"></label>        <label th:text="${stud.getSurname()}"></label>
+        <br/>
+    </th:block>
+</div>
+</body>
+</html>

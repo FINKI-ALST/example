@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+        <meta charset="UTF-8"/>
+    <title>Welcome and Choose a Course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https
+    ://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial;
+        }
+        div.coursesAll{
+            width: 400px;
+            border-radius: 15px;
+        }
+        h1,h2{
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<section class="jumbotron">
+    <div class="container">
+        <h1 class="jumbotron-heading">Courses List </h1>
+        <h3 class="jumbotron-heading">Choose Course</h3>
+    </div>
+    <div class="container" th:if="${hasErrors}">
+        <label th:text="${error}" ></label>
+    </div>
+</section>
+<form method="POST" action="/courses/search">
+    <label for='search1'>Search:</label><br/>
+    <input id='search1' type='text' name='search1'/><br/>
+    <input type="submit" value="Submit">
+</form>
+<div th:if="${filter}">
+    <ul th:each="cours:${filteredCourses}">
+        <li>
+            <th:block th:text="${cours.getName()}"></th:block>
+        </li>
+    </ul>
+</div>
+<br/>
+<div class="row">
+    <div class="column">
+    <form th:method="POST" th:action="@{/courses}">
+    <th:block th:each="course:${CoursesList}" >
+        <input type="radio"   name="courseId" th:value="${course.getCourseId()}"/>
+        <th:block for="courseId" th:text="${course.getName()}"/>
+        <br/>
+        <br/>
+    </th:block>
+    <br/>
+    <input type="submit" class="btn btn-sm btn-success text-center" value="Submit" />
+    </form>
+    </div>
+    <div class="column">
+        <th:block th:each="course:${CoursesList}">
+            <a th:href="@{/courses}" class="btn btn-sm btn-info kursevi"><i class="fa fa-trash">-></i></a>
+            <br/>
+            <br/>
+        </th:block>
+    </div>
+    <div class="column">
+        <th:block th:each="course:${CoursesList}">
+            <th:block th:text="'     '+${course.getTeacher().getName()}+' '+${course.getTeacher().getSurname()}"/>
+            <br/>
+            <br/>
+        </th:block>
+    </div>
+    <div class="column">
+        <th:block th:each="course:${CoursesList}" sec:authorize="hasRole('ROLE_ADMIN')">
+
+            <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}" class="btn btn-sm btn-info edit-course"><i class="fa fa-trash">Edit</i></a>
+            <br/>
+            <br/>
+        </th:block>
+    </div>
+    <div class="column">
+    </div>
+    <div class="column">
+        <th:block th:each="course:${CoursesList}">
+            <form th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}" th:method="DELETE" sec:authorize="hasRole('ROLE_ADMIN')">
+                <button type="submit" class="btn btn-sm btn-danger delete-course"><i class="fa fa-trash">Delete</i></button>
+            </form>
+            <br/>
+        </th:block>
+    </div>
+</div>
+<br/>
+<br/>
+<div class="col-12 col-md-6" sec:authorize="hasRole('ROLE_ADMIN')">
+    <a href="/courses/add-form" class="btn btn-block btn-dark add-course-btn">Add new course</a>
+</div>
+
+<!--<div class="container mb-4">-->
+<!--    <div class="row">-->
+<!--        <div class="col-12">-->
+<!--            <div class="table-responsive">-->
+<!--                <table class="table table-striped">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th scope="col">Course name</th>-->
+<!--                        <th scope="col">Teacher</th>-->
+<!--                        <th scope="col"></th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="course:${CoursesList}">-->
+<!--                         <td th:text="${course.getName()}"></td>-->
+<!--                         <td th:text="${course.getTeacher().getName()}+' '+${course.getTeacher().getSurname()}"></td>-->
+<!--                        <td>-->
+<!--                            <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}"-->
+<!--                               class="btn btn-sm btn-info"><i class="fa fa-trash">Edit</i>-->
+<!--                            </a>-->
+<!--                            <form th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}" th:method="DELETE">-->
+<!--                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col mb-3">-->
+<!--            <div class="row">-->
+<!--                <div class="col-sm-12 col-md-12">-->
+<!--                    <a href="/courses/add-form" class="btn btn-block btn-dark">Add new course</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+</html>
